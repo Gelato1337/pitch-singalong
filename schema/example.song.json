@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "id": "0000000000000000000000000000000000000000000000000000000000000000",
+  "title": "Example",
+  "duration": 214.3,
+  "sample_rate": 44100,
+  "stems": { "mix": "mix.wav", "vocals": "vocals.wav", "accompaniment": "accompaniment.wav" },
+  "pitch_curve": { "hop": 0.01, "f0": [0, 0, 220.1], "confidence": [0.1, 0.2, 0.93] },
+  "notes": [{ "start": 12.34, "end": 12.81, "midi": 64, "confidence": 0.88 }],
+  "keys": [{ "start": 0.0, "end": 98.2, "tonic": 7, "mode": "major", "confidence": 0.81 }],
+  "chords": [{ "start": 12.0, "end": 14.1, "root": 7, "quality": "maj", "pcs": [7, 11, 2], "confidence": 0.7 }],
+  "beats": [0.52, 1.04],
+  "tempo": 115.0
+}

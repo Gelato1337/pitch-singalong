@@ -1,0 +1,36 @@
+{
+  "_comment": "All tunable numbers live here. Read by the backend (singalong.config) and the frontend (src/config.ts).",
+  "analysis": {
+    "sample_rate": 44100,
+    "demucs_model": "htdemucs",
+    "pitch_hop_s": 0.01,
+    "voicing_confidence_min": 0.5,
+    "median_filter_s": 0.05,
+    "octave_fix_max_segment_s": 0.15,
+    "note_max_deviation_semitones": 0.7,
+    "note_min_duration_s": 0.08,
+    "key_window_s": 8.0,
+    "key_hop_s": 2.0
+  },
+  "live_pitch": {
+    "window": 2048,
+    "hop": 256,
+    "min_hz": 60,
+    "max_hz": 1200,
+    "clarity_min": 0.85,
+    "rms_min": 0.01,
+    "median_frames": 3
+  },
+  "scoring": {
+    "points_melody": 1.0,
+    "points_chord_tone": 0.8,
+    "points_in_key_short": 0.5,
+    "points_in_key_long": 0.2,
+    "in_key_short_max_s": 0.3,
+    "cents_full_credit": 25,
+    "cents_half_credit": 50,
+    "intonation_floor": 0.5,
+    "timing_window_s": 0.1,
+    "chord_confidence_min": 0.5
+  }
+}

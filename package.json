@@ -1,0 +1,15 @@
+{
+  "name": "pitch-singalong",
+  "private": true,
+  "scripts": {
+    "setup": "cd backend && uv sync && cd ../frontend && npm install",
+    "dev": "concurrently -k -n backend,frontend -c blue,green \"npm:dev:backend\" \"npm:dev:frontend\"",
+    "dev:backend": "cd backend && uv run uvicorn singalong.api:app --reload --port 8000",
+    "dev:frontend": "cd frontend && npm run dev",
+    "test": "cd backend && uv run pytest -q && cd ../frontend && npm test",
+    "gen:types": "cd frontend && npm run gen:types"
+  },
+  "devDependencies": {
+    "concurrently": "^10.0.6"
+  }
+}

@@ -1,0 +1,80 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Gelato1337/pitch-singalong/schema/song.schema.json",
+  "title": "Song",
+  "description": "Analysis result for one song. Contract between backend and frontend. Pitch classes: 0 = C ... 11 = B.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["version", "id", "title", "duration", "sample_rate", "stems", "pitch_curve", "notes", "keys", "chords", "beats", "tempo"],
+  "properties": {
+    "version": { "const": 1, "description": "Schema version. Bump to invalidate old caches." },
+    "id": { "type": "string", "description": "SHA-256 of the source file." },
+    "title": { "type": "string" },
+    "duration": { "type": "number", "minimum": 0, "description": "Seconds." },
+    "sample_rate": { "type": "integer", "minimum": 1 },
+    "stems": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mix", "vocals", "accompaniment"],
+      "properties": {
+        "mix": { "type": "string" },
+        "vocals": { "type": "string" },
+        "accompaniment": { "type": "string" }
+      }
+    },
+    "pitch_curve": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["hop", "f0", "confidence"],
+      "properties": {
+        "hop": { "type": "number", "exclusiveMinimum": 0, "description": "Seconds between frames." },
+        "f0": { "type": "array", "items": { "type": "number", "minimum": 0 }, "description": "Hz per frame, 0 = unvoiced." },
+        "confidence": { "type": "array", "items": { "type": "number", "minimum": 0, "maximum": 1 } }
+      }
+    },
+    "notes": { "type": "array", "items": { "$ref": "#/$defs/Note" } },
+    "keys": { "type": "array", "items": { "$ref": "#/$defs/KeySegment" } },
+    "chords": { "type": "array", "items": { "$ref": "#/$defs/ChordSegment" } },
+    "beats": { "type": "array", "items": { "type": "number", "minimum": 0 } },
+    "tempo": { "type": "number", "minimum": 0, "description": "BPM, 0 if unknown." }
+  },
+  "$defs": {
+    "PitchClass": { "type": "integer", "minimum": 0, "maximum": 11 },
+    "Note": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["start", "end", "midi", "confidence"],
+      "properties": {
+        "start": { "type": "number", "minimum": 0 },
+        "end": { "type": "number", "minimum": 0 },
+        "midi": { "type": "integer", "minimum": 0, "maximum": 127 },
+        "confidence": { "type": "number", "minimum": 0, "maximum": 1 }
+      }
+    },
+    "KeySegment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["start", "end", "tonic", "mode", "confidence"],
+      "properties": {
+        "start": { "type": "number", "minimum": 0 },
+        "end": { "type": "number", "minimum": 0 },
+        "tonic": { "$ref": "#/$defs/PitchClass" },
+        "mode": { "enum": ["major", "minor"] },
+        "confidence": { "type": "number", "minimum": 0, "maximum": 1 }
+      }
+    },
+    "ChordSegment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["start", "end", "root", "quality", "pcs", "confidence"],
+      "properties": {
+        "start": { "type": "number", "minimum": 0 },
+        "end": { "type": "number", "minimum": 0 },
+        "root": { "$ref": "#/$defs/PitchClass" },
+        "quality": { "enum": ["maj", "min", "7", "maj7", "min7", "sus2", "sus4", "dim"] },
+        "pcs": { "type": "array", "items": { "$ref": "#/$defs/PitchClass" }, "uniqueItems": true },
+        "confidence": { "type": "number", "minimum": 0, "maximum": 1 }
+      }
+    }
+  }
+}
